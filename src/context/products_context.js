@@ -17,7 +17,7 @@ const initialState = {
   isOpenSidebar: false,
 };
 
-const ProductsContext = React.createContext();
+const ProductsContext = React.createContext(initialState);
 
 export const ProductsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
