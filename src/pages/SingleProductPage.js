@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useProductsContext } from "../context/products_context";
 import { single_product_url as url } from "../utils/constants";
 import { formatPrice } from "../utils/helpers";
@@ -22,11 +22,23 @@ const SingleProductPage = () => {
     single_product_error: error,
   } = useProductsContext();
   const { id } = useParams();
-  console.log({ id });
+  const navigate = useNavigate();
   useEffect(() => {
-    fetchSingleProduct(`${url}${id}`);
+    fetchSingleProduct(`${url}${id}sss`);
+  }, [id]);
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    }
   }, []);
-  console.log(product, error, loading);
+  if (loading) {
+    return <Loading />;
+  }
+  if (error) {
+    return <Error />;
+  }
   return <h4>single product page</h4>;
 };
 
