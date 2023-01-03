@@ -24,7 +24,8 @@ const SingleProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
-    fetchSingleProduct(`${url}${id}sss`);
+    console.log(`${url}${id}`);
+    fetchSingleProduct(`${url}${id}`);
   }, [id]);
   useEffect(() => {
     if (error) {
@@ -39,7 +40,50 @@ const SingleProductPage = () => {
   if (error) {
     return <Error />;
   }
-  return <h4>single product page</h4>;
+  const {
+    name,
+    price,
+    description,
+    stock,
+    stars,
+    reviews,
+    id: sku,
+    company,
+    images,
+  } = product;
+  return (
+    <Wrapper>
+      <PageHero title={name} product={product} />
+      <div className="section section-center page">
+        <Link to="/products" className="btn">
+          back to products
+        </Link>
+        <div className="products-center">
+          <ProductImages images={images} />
+          <section className="content">
+            <h2>{name}</h2>
+            <Stars />
+            <h5 className="price">{formatPrice(price)}</h5>
+            <p className="desc">{description}</p>
+            <p className="info">
+              <span>Available :</span>
+              {stock > 0 ? "In stock" : "Out of stock"}
+            </p>
+            <p className="info">
+              <span>SKU :</span>
+              {sku}
+            </p>
+            <p className="info">
+              <span>Brand :</span>
+              {company}
+            </p>
+            <hr />
+            {stock > 0 && <AddToCart />}
+          </section>
+        </div>
+      </div>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.main`
