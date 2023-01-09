@@ -6,7 +6,26 @@ import { useCartContext } from "../context/cart_context";
 import AmountButtons from "./AmountButtons";
 
 const AddToCart = ({ product: { id, stock, colors } }) => {
-  const [mainColor, SetMainColor] = useState(colors[0]);
+  const [mainColor, setMainColor] = useState(colors[0]);
+  const [amount, setAmount] = useState(1);
+  const increase = () => {
+    setAmount((oldAmount) => {
+      let tempAmount = oldAmount + 1;
+      if (stock <= tempAmount) {
+        tempAmount = stock;
+      }
+      return tempAmount;
+    });
+  };
+  const decrease = () => {
+    setAmount((oldAmount) => {
+      let tempAmount = oldAmount - 1;
+      if (tempAmount < 1) {
+        tempAmount = 1;
+      }
+      return tempAmount;
+    });
+  };
   return (
     <Wrapper>
       <div className="colors">
@@ -17,7 +36,7 @@ const AddToCart = ({ product: { id, stock, colors } }) => {
               <button
                 key={index}
                 onClick={() => {
-                  SetMainColor(colors[index]);
+                  setMainColor(colors[index]);
                 }}
                 style={{ background: color }}
                 className={`color-btn ${mainColor === color ? "active" : null}`}
@@ -28,7 +47,16 @@ const AddToCart = ({ product: { id, stock, colors } }) => {
           })}
         </div>
       </div>
-      <div className="btn-container"></div>
+      <div className="btn-container">
+        <AmountButtons
+          amount={amount}
+          increase={increase}
+          decrease={decrease}
+        />
+        <Link to={"/cart"} className="btn">
+          Add to cart
+        </Link>
+      </div>
     </Wrapper>
   );
 };
