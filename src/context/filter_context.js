@@ -18,7 +18,7 @@ const initialState = {
   gridview: false,
 };
 
-const FilterContext = React.createContext();
+const FilterContext = React.createContext(initialState);
 
 export const FilterProvider = ({ children }) => {
   const { products } = useProductsContext();
