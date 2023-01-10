@@ -8,10 +8,9 @@ const Sort = () => {
     filtered_products: products,
     setGridView,
     setListView,
+    updateSort,
+    sort,
   } = useFilterContext();
-  const handleSubmit = () => {
-    console.log("handleSubmit");
-  };
   return (
     <Wrapper>
       <div className="btn-container">
@@ -34,7 +33,13 @@ const Sort = () => {
       <hr />
       <form>
         <label htmlFor="sort">sort by</label>
-        <select name="sort" id="sort" className="sort-input">
+        <select
+          name="sort"
+          id="sort"
+          className="sort-input"
+          onChange={updateSort}
+          value={sort}
+        >
           <option value="price-lowest">price (lowest)</option>
           <option value="price-highest">price (highest)</option>
           <option value="name-a">name (a-z)</option>
