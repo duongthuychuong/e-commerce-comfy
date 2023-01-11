@@ -42,6 +42,21 @@ const filter_reducer = (state, action) => {
       sort: action.payload,
     };
   }
+  if (action.type === UPDATE_FILTERS) {
+    return {
+      ...state,
+      filters: {
+        ...state.filters,
+        [action.payload.name]: action.payload.value,
+      },
+    };
+  }
+  if (action.type === FILTER_PRODUCTS) {
+    console.log("filtering");
+    return {
+      ...state,
+    };
+  }
   if (action.type === SORT_PRODUCTS) {
     const { filtered_products, sort } = state;
     let tempProducts = [...filtered_products];
