@@ -44,6 +44,49 @@ const Filters = () => {
             />
           </div>
           {/* end search input */}
+          {/* categories */}
+
+          <div className="form-control">
+            <h5>category</h5>
+            <div>
+              {categories.map((item, index) => {
+                return (
+                  <button
+                    type="button"
+                    key={index}
+                    onClick={updateFilter}
+                    name="category"
+                    className={`${
+                      category === item.toLowerCase() ? "active" : null
+                    }`}
+                  >
+                    {item}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          {/* end categories */}
+
+          {/* companies */}
+          <div className="form-control">
+            <h5>company</h5>
+            <select
+              name="company"
+              id="company"
+              onChange={updateFilter}
+              className="company"
+            >
+              {companies.map((item, index) => {
+                return (
+                  <option key={index} value={item}>
+                    {item.toUpperCase()}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {/* end companies */}
         </form>
       </div>
     </Wrapper>
