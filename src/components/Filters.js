@@ -76,6 +76,7 @@ const Filters = () => {
               id="company"
               onChange={updateFilter}
               className="company"
+              value={company}
             >
               {companies.map((item, index) => {
                 return (
