@@ -1,3 +1,4 @@
+import { ShippingAddressElement } from "@stripe/react-stripe-js";
 import {
   LOAD_PRODUCTS,
   SET_LISTVIEW,
@@ -53,8 +54,45 @@ const filter_reducer = (state, action) => {
   }
   if (action.type === FILTER_PRODUCTS) {
     // console.log("filtering");
+    const { all_products } = state;
+    const { text, category, company, color, price, shipping } = state.filters;
+    let tempProducts = [...all_products];
+    //filtering
+    if (text) {
+      tempProducts = tempProducts.filter((product) => {
+        return product.name.toLowerCase().startsWith(text);
+      });
+    }
+    if (category !== "all") {
+      tempProducts = tempProducts.filter((product) => {
+        return product.category === category;
+      });
+    }
+
+    if (company !== "all") {
+      tempProducts = tempProducts.filter((product) => {
+        return product.company === company;
+      });
+    }
+
+    if (color !== "all") {
+      tempProducts = tempProducts.filter((product) => {
+        return product.colors.some((c) => c === color);
+      });
+    }
+
+    tempProducts = tempProducts.filter((product) => {
+      return product.price <= price;
+    });
+
+    if (shipping) {
+      tempProducts = tempProducts.filter((product) => {
+        return product.shipping === shipping;
+      });
+    }
     return {
       ...state,
+      filtered_products: tempProducts,
     };
   }
   if (action.type === SORT_PRODUCTS) {
