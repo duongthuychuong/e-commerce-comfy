@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useReducer } from "react";
+import _ from "lodash";
 import reducer from "../reducers/cart_reducer";
 import {
   ADD_TO_CART,
@@ -8,8 +9,20 @@ import {
   COUNT_CART_TOTALS,
 } from "../actions";
 
+const getCartLocalStorage = () => {
+  const cartLocal = localStorage.getItem("cart") || null;
+  console.log({ cartLocal });
+  if (_.isNil(cartLocal)) {
+    console.log("hello");
+    return [];
+  } else {
+    console.log("khac");
+    return JSON.parse(localStorage.getItem("cart"));
+  }
+};
+
 const initialState = {
-  cart: [],
+  cart: getCartLocalStorage(),
   total_items: 0,
   total_amount: 0,
   shipping_fee: 534,
@@ -22,8 +35,17 @@ export const CartProvider = ({ children }) => {
   const addToCart = (id, color, amount, product) => {
     dispatch({ type: ADD_TO_CART, payload: { id, color, amount, product } });
   };
+  const removeItem = (id) => {};
+  const toggleAmount = (id, value) => {};
+  const clearCart = () => {};
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(state.cart));
+  }, [state.cart]);
   return (
-    <CartContext.Provider value={{ ...state, addToCart }}>
+    <CartContext.Provider
+      value={{ ...state, addToCart, removeItem, toggleAmount, clearCart }}
+    >
       {children}
     </CartContext.Provider>
   );
