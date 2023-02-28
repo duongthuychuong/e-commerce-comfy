@@ -45,7 +45,42 @@ const cart_reducer = (state, action) => {
       };
     }
   }
-  return state;
+  if (action.type === TOGGLE_CART_ITEM_AMOUNT) {
+    const { id, value } = action.payload;
+    const updateItem = state.cart.find((item) => item.id === id);
+    if (updateItem) {
+      const tempCart = state.cart.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            amount: value,
+          };
+        }
+        return item;
+      });
+      return {
+        ...state,
+        cart: tempCart,
+      };
+    }
+    return {
+      state,
+    };
+  }
+
+  if (action.type === REMOVE_CART_ITEM) {
+    const tempCart = state.cart.filter((item) => item.id !== action.payload);
+    return {
+      ...state,
+      cart: tempCart,
+    };
+  }
+  if (action.type === CLEAR_CART) {
+    return {
+      ...state,
+      cart: [],
+    };
+  }
   throw new Error(`No Matching "${action.type}" - action type`);
 };
 
